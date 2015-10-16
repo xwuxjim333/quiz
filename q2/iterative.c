@@ -17,25 +17,27 @@ char smallest_character(char str[], char c) {
     return str[0];
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    char str[length];
+    char str[length] = "cfilorux";
     char c, out;
     clock_t start, end;
     double time;
+    FILE *file = fopen("iterative.txt", "a");
 
-    printf("Input a sorted character array: ");
-    fgets(str, length, stdin);
-    printf("Input a character: ");
-    scanf("%c", &c);
+    printf("Input a sorted character array: %s\n", str);
+    c = *argv[argc-1];
+    printf("Input a character: %c\n", c);
     fflush(stdin);
-
     start = clock();
     out = smallest_character(str, c);
     end = clock();
     time = (end - start) / (double)(CLOCKS_PER_SEC);
 
     printf("Output: %c\n", out);
-    printf("execution time of smallest_character() : %lf sec\n", time);
+    if (file) {
+        fprintf("execution time of smallest_character() : %lf sec\n", time);
+        fclose(file);
+    }
     return 0;
 }
