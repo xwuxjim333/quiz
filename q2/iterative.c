@@ -1,6 +1,6 @@
-/* FIXME: Implement! */
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 #define length 26
 
@@ -19,12 +19,13 @@ char smallest_character(char str[], char c) {
 
 int main(int argc, char *argv[])
 {
-    char str[length] = "cfilorux";
+    char str[length];
     char c, output;
     double total_time;
     clock_t start, end;
     FILE *file = fopen("iterative.txt", "a");
 
+    strcpy(str, argv[1]);
     printf("Input a sorted character array: %s\n", str);
     c = *argv[argc-1];
     printf("Input a character: %c\n", c);
