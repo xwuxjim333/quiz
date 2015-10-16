@@ -27,24 +27,24 @@ char smallest_character(char str[], char c)
 int main(int argc, char *argv[])
 {
     char str[length] = "cfilorux";
-    char c, out;
+    char c, output;
+    double total_time;
     clock_t start, end;
-    double time;
     FILE *file = fopen("recursive.txt", "a");
 
     printf("Input a sorted character array: %s\n", str);
     c = *argv[argc-1];
     printf("Input a character: %c\n", c);
-    fflush(stdin);
     start = clock();
-    out = smallest_character(str, c);
+    output = smallest_character(str, c);
+    printf("Ouput : %c\n", output);
     end = clock();
-    time = (end - start) / (double)(CLOCKS_PER_SEC);
 
-    printf("Output: %c\n", out);
-    if (file) {
-        fprintf(file, "execution time of smallest_character() : %f sec\n", time);
+    if(file){
+	    total_time = (double)(end - start) / CLOCKS_PER_SEC;
+        fprintf(file, "%f\n", total_time);
         fclose(file);
     }
+    printf("execution time of smallest_character() : %f sec\n", total_time);  
     return 0;
 }
