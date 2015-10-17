@@ -13,7 +13,7 @@ recursive: recursive.c
 	$(CC) $(CFLAGS_common) -o $@ $@.c
 
 run_iterative:
-	$(foreach var,$(CHAR),./iterative $(var) ;)
+	$(foreach var,$(CHAR),./iterative $(ARRAY) $(var) ;)
 
 run_recursive:
 	$(foreach var,$(CHAR),./recursive $(ARRAY) $(var) ;)

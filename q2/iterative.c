@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     printf("Ouput : %c\n", output);
     end = clock();
 
-    if(file){
+    if (file) {
 	    total_time = (double)(end - start) / CLOCKS_PER_SEC;
         fprintf(file, "%f\n", total_time);
         fclose(file);
