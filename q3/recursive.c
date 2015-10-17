@@ -77,7 +77,7 @@ int main()
     TreeNode *test = create();
     double total_time;
     clock_t start, end;
-    FILE *file = fopen("iterative.txt", "a");
+    FILE *file = fopen("recursive.txt", "a");
 
     printf("Inorder Traversal:\n");
     printTree(test);
