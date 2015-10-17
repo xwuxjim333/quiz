@@ -12,3 +12,4 @@ recursive: recursive.c
 
 clean:
 	$(RM) $(EXEC) *.o perf.*
+	$(RM) iterative.txt recursive.txt
