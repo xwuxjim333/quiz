@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <assert.h>
 
 
 typedef struct TreeNode
@@ -11,7 +12,7 @@ typedef struct TreeNode
     struct TreeNode *right;
 } TreeNode;
 
-TreeNode *create()
+TreeNode *createTree()
 {
 //q3: the example tree
     TreeNode *n1 = (TreeNode *)malloc(sizeof(TreeNode));
@@ -34,22 +35,35 @@ TreeNode *create()
     n5->val = 4;
     n5->left = NULL;
     n5->right = NULL;
-    TreeNode *n7 = n3->right;
-    n7->val = 6;
-    n7->left = NULL;
-    n7->right = NULL;
+    TreeNode *n6 = n3->right;
+    n6->val = 6;
+    n6->left = NULL;
+    n6->right = NULL;
     return n1;
 }
 
-void printTree(TreeNode *tree)
+int testTree(TreeNode *root)
 {
-    if (tree->left) {
-        printTree(tree->left);
+//check the tree after flatten it
+    if (root->val == 1 && root->right->val == 2 && root->right->right->val == 3 &&
+        root->right->right->right->val == 4 && root->right->right->right->right->val == 5 &&
+        root->right->right->right->right->right->val == 6 )
+        return 1;
+    else
+        return 0;
+}
+
+static double diff_in_second(struct timespec t1, struct timespec t2)
+{
+    struct timespec diff;
+    if (t2.tv_nsec - t1.tv_nsec < 0) {
+        diff.tv_sec  = t2.tv_sec - t1.tv_sec - 1;
+        diff.tv_nsec = t2.tv_nsec - t1.tv_nsec + 1000000000;
+    } else {
+        diff.tv_sec  = t2.tv_sec - t1.tv_sec;
+        diff.tv_nsec = t2.tv_nsec - t1.tv_nsec;
     }
-    printf("%d\n", tree->val);
-    if (tree->right) {
-        printTree(tree->right);
-    }
+    return (diff.tv_sec + diff.tv_nsec / 1000000000.0);
 }
 
 void flatten(TreeNode *root)
@@ -73,24 +87,23 @@ void flatten(TreeNode *root)
 int main()
 {
 //creat the binary tree
-    TreeNode *test = create();
-    double total_time;
-    clock_t start, end;
+    TreeNode *example = createTree();
+    double total_time = 0;
+    struct timespec start, end;
     FILE *file = fopen("iterative.txt", "a");
 
-    printf("Inorder Traversal:\n");
-    printTree(test);
-    start = clock();
-    flatten(test);
-    end = clock();
-    printf("Inorder Traversal after flatten():\n");
-    printTree(test);
+    clock_gettime(CLOCK_REALTIME, &start);
+    flatten(example);
+    clock_gettime(CLOCK_REALTIME, &end);
+    total_time = diff_in_second(start, end);
+    assert(1 == testTree(example) && "flatten error");
 
     if (file) {
-	    total_time = (double)(end - start) / CLOCKS_PER_SEC;
         fprintf(file, "%f\n", total_time);
         fclose(file);
     } 
-    printf("execution time of flatten() : %f sec\n", total_time);  
+    printf("execution time of flatten() : %f sec\n", total_time);
+    free(example);
+  
     return 0;
 }
